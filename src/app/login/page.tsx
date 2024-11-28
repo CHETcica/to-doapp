@@ -3,6 +3,8 @@ import Navbar from "@/components/organisms/Navbar";
 import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -23,7 +25,8 @@ const LoginPage = () => {
     const data = await response.json();
 
     if (data.success) {
-      alert("sucseccfully to login");
+      // alert("sucseccfully to login");
+      toast.success("sucseccfully to login!");
       localStorage.setItem("user", JSON.stringify(data.users));
       router.push('/');
     } else {
@@ -31,11 +34,14 @@ const LoginPage = () => {
     }
   };
 
+  // const notify = () => toast("Wow so easy!");
+
   return (
     <>
       <div className="container w-full mx-auto bg-[#FFFFFF] p-4">
         <Navbar />
       </div>
+      <ToastContainer />
       <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
         <div className="p-6 bg-white rounded shadow-md w-80 text-gray-600">
           <h1 className="text-xl font-bold mb-4">Login</h1>
@@ -60,6 +66,12 @@ const LoginPage = () => {
             >
               Login
             </button>
+            {/* <button
+              onClick={() => notify()}
+              className="w-full bg-blue-500 text-white py-2 rounded"
+            >
+              Login
+            </button> */}
           </form>
           <Link href={"/register"} className="text-blue-400 mt-4">
             If you have not an account, go to Register page

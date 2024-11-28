@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "@/components/organisms/Navbar";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const EditTodoPage = ({
   params,
@@ -134,6 +135,15 @@ const EditTodoPage = ({
               Add new todo
             </button>
           </form>
+
+          <Link href={`/deletetodo/${ID}`}>
+            <button
+              type="submit" 
+              className="w-full bg-red-700 text-white py-2 rounded mt-3"
+            >
+              Delete
+            </button>
+          </Link>
         </div>
       </div>
     </>
