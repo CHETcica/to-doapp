@@ -1,7 +1,7 @@
 "use client";
 import Navbar from "@/components/organisms/Navbar";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -10,6 +10,15 @@ const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const user = localStorage.getItem("user");
+      if (user) {
+        console.log("User data found:", JSON.parse(user));
+      }
+    }
+  }, []);
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -25,7 +34,6 @@ const LoginPage = () => {
     const data = await response.json();
 
     if (data.success) {
-      // alert("sucseccfully to login");
       console.log(data)
       toast.success("sucseccfully to login!");
       localStorage.setItem("user", JSON.stringify(data.users));
@@ -35,7 +43,6 @@ const LoginPage = () => {
     }
   };
 
-  // const notify = () => toast("Wow so easy!");
 
   return (
     <>
@@ -67,12 +74,7 @@ const LoginPage = () => {
             >
               Login
             </button>
-            {/* <button
-              onClick={() => notify()}
-              className="w-full bg-blue-500 text-white py-2 rounded"
-            >
-              Login
-            </button> */}
+            
           </form>
           <Link href={"/register"} className="text-blue-400 mt-4">
             If you have not an account, go to Register page

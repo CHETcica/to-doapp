@@ -1,16 +1,34 @@
 "use client";
 
+import React, { useEffect, useState } from "react";
 import Navbar from "@/components/organisms/Navbar";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 
-export default function RegisterPage() {
+
+type UserData = {
+  name: string;
+};
+
+const RegisterPage = () => {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [userData, setUserData] = useState<UserData | null>(null);
   const router = useRouter();
-  const handleRegister = async () => {
+
+  useEffect(() => {
+    
+    if (typeof window !== "undefined") {
+      const user = localStorage.getItem("user");
+      if (user) {
+        setUserData(JSON.parse(user));
+      }
+    }
+  }, []);
+
+  const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     const res = await fetch("/api/auth/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -69,6 +87,14 @@ export default function RegisterPage() {
           </Link>
         </div>
       </div>
+      {userData && <p className="mt-4 text-green-500">Welcome back, {userData.name}!</p>}
     </>
   );
 }
+
+
+
+
+
+export default RegisterPage;
+
