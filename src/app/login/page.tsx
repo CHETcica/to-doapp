@@ -26,6 +26,7 @@ const LoginPage = () => {
 
     if (data.success) {
       // alert("sucseccfully to login");
+      console.log(data)
       toast.success("sucseccfully to login!");
       localStorage.setItem("user", JSON.stringify(data.users));
       router.push('/');

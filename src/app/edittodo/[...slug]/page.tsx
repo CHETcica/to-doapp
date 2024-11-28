@@ -132,7 +132,7 @@ const EditTodoPage = ({
               type="submit" 
               className="w-full bg-blue-500 text-white py-2 rounded"
             >
-              Add new todo
+              Update
             </button>
           </form>
 
