@@ -10,10 +10,6 @@ interface TaskCardProps {
   detail: string;
   priority: number;
 }
- interface Todolist {
-   tododata: TaskCardProps;
-}
-
 const Taskscontainer = ({
   headname,
   isDone,
@@ -22,8 +18,9 @@ const Taskscontainer = ({
   isDone: boolean;
 }) => {
   const user = localStorage.getItem("user");
-  const localdata = user ? JSON.parse(user) : {};
-  const [todolist, setTodolist] = useState<{ id: string; name: string; done: boolean }[]>([]);
+  const localdata = user ? JSON.parse(user) : null;
+
+  const [todolist, setTodolist] = useState<TaskCardProps[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -37,7 +34,16 @@ const Taskscontainer = ({
         });
         const data = await response.json();
         if (data.success) {
-          setTodolist(data.todo);
+          const formattedData: TaskCardProps[] = data.todo.map((
+            task: { _id: string; todoname: string; done_status: boolean; detail?: string; priority?: number;}) => ({
+            _id: task._id,
+            todoname: task.todoname,
+            done_status: task.done_status,
+            detail: task.detail || "",
+            priority: task.priority || 0,
+          }));
+          console.log("------------------formattedData-----------------------",formattedData)
+          setTodolist(formattedData);
         } else {
           console.error(data.error);
         }
@@ -47,29 +53,30 @@ const Taskscontainer = ({
     };
 
     fetchData();
-  },[]);
+  },[localdata, isDone]);
 
   return (
     <>
-      {todolist && todolist ? (
+      {todolist.length > 0 && (
         <div className="border-dashed border-2 border-b-white border-x-white border-t-gray-300 py-3">
           <TaskHead headname={headname} />
           <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-2 w-full">
-            {todolist && todolist.map((task) => (
-              <TaskCard 
-                key={task._id} 
-                _id={task._id} 
-                todoname={task.todoname} 
-                done_status={task.done_status} 
-                detail={task.detail} 
-                priority={task.priority} 
+            {todolist.map((task,index) => (
+              <TaskCard
+                key={index}
+                _id={task._id}
+                todoname={task.todoname}
+                done_status={task.done_status}
+                detail={task.detail}
+                priority={task.priority}
               />
             ))}
           </div>
         </div>
-      ) : null}
+      )}
     </>
   );
 };
 
 export default Taskscontainer;
+

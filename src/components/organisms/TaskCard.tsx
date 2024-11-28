@@ -8,9 +8,7 @@ interface TaskCardProps {
   detail: string;
   priority: number;
 }
-// interface Todolist {
-//   tododata: TaskCardProps;
-// }
+
 
 const TaskCard: React.FC<TaskCardProps> = ({
   _id,
