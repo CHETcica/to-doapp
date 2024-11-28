@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from "react";
+import Link from "next/link";
+import React from "react";
 
 interface TaskCardProps {
+  _id: string;
   todoname: string;
   done_status: boolean;
   detail: string;
@@ -11,15 +13,15 @@ interface Todolist {
 }
 
 const TaskCard: React.FC<Todolist> = ({ tododata }) => {
-  const [ todo ,setTodo] = useState(tododata)
+  
   
 
   return (
     <>
-      {todo.map((task: TaskCardProps) => (
-        <div
-          key={task.todoname}
-          className={`flex w-full md:max-w-[20rem] rounded-md my-2 p-3  shadow-lg shadow-indigo-500/40 justify-between
+      {tododata.map((task: TaskCardProps) => (
+        <Link href={`/edittodo/${task._id}`}
+          key={task._id}
+          className={`flex w-full rounded-md my-2 p-3  shadow-lg shadow-indigo-500/40 justify-between
           ${task.done_status ? "bg-[#00b037]" : null}
           ${task.priority == 1 && !task.done_status ? "bg-[#3E99EB]" : null}
           ${task.priority == 2 && !task.done_status ? "bg-[#fc6e3e]" : null}
@@ -63,7 +65,7 @@ const TaskCard: React.FC<Todolist> = ({ tododata }) => {
               </svg>
             </div>
           </div>
-        </div>
+        </Link>
       ))}
     </>
   );

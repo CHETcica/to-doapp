@@ -1,34 +1,44 @@
 "use client";
 import React, { useState } from "react";
-
-const AddNewTodo = () => {
+import { useRouter } from 'next/navigation'
+import Navbar from "@/components/organisms/Navbar";
+const AddNewTodoPage = () => {
   const [todoName, setTodoName] = useState("");
   const [detail, setDetail] = useState("");
   const [priority, setPriority] = useState("");
+  const user = localStorage.getItem("user");
+  const localdata = user ? JSON.parse(user) : {};
+  const router = useRouter();
 
   const handleAdd = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const response = await fetch('/api/auth/login', {
-      method: 'POST',
+    const response = await fetch("/api/todo/addnew", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify({todoName, detail, priority }),
+      body: JSON.stringify({ todoName, detail, priority, localdata }),
     });
 
     const data = await response.json();
 
     if (data.success) {
-      alert("sucseccfully to login")
-      localStorage.setItem('user', JSON.stringify(data.users));
+      alert("sucseccfully to create todocard");
+      router.push('/');
     } else {
       console.error(data.error);
+      alert(data.error);
     }
   };
   return (
     <>
+      <div className="container w-full mx-auto bg-[#FFFFFF] p-4">
+        <Navbar />
+      </div>
+
       <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+        
         <div className="p-6 bg-white rounded shadow-md w-80 text-gray-600">
           <h1 className="text-xl font-bold mb-4 ">Add Todo</h1>
           <form onSubmit={handleAdd}>
@@ -54,20 +64,18 @@ const AddNewTodo = () => {
               <option value="1">NOMAL PRIORITY</option>
               <option value="2">HIGH PRIORITY</option>
             </select>
-            
+
             <button
-              type="submit"
+              type="submit" 
               className="w-full bg-blue-500 text-white py-2 rounded"
             >
-              Register
+              Add new todo
             </button>
           </form>
-
-          
         </div>
       </div>
     </>
   );
 };
 
-export default AddNewTodo;
+export default AddNewTodoPage;

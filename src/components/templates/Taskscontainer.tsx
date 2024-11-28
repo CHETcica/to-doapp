@@ -11,13 +11,13 @@ const Taskscontainer = ({
   isDone: boolean;
 }) => {
   const user = localStorage.getItem("user");
-  const localdata = JSON.parse(user);
-  const [todolist, setTodolist] = useState("");
+  const localdata = user ? JSON.parse(user) : {};
+  const [todolist, setTodolist] = useState<any[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("/api/todo/todomanagement", {
+        const response = await fetch("/api/todo/todofetch", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -38,14 +38,12 @@ const Taskscontainer = ({
     fetchData();
   },[]);
 
-  console.log("todolist", todolist);
-
   return (
     <>
       {todolist && todolist ? (
         <div className="border-dashed border-2 border-b-white border-x-white border-t-gray-300 py-3">
           <TaskHead headname={headname} />
-          <div className="grid gap-2 md:flex">
+          <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-2 w-full">
             <TaskCard tododata={todolist} />
           </div>
         </div>
