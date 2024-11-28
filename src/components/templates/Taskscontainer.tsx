@@ -3,6 +3,17 @@ import React, { useEffect, useState } from "react";
 import TaskHead from "../atoms/TaskHead";
 import TaskCard from "../organisms/TaskCard";
 
+interface TaskCardProps {
+  _id: string;
+  todoname: string;
+  done_status: boolean;
+  detail: string;
+  priority: number;
+}
+ interface Todolist {
+   tododata: TaskCardProps;
+}
+
 const Taskscontainer = ({
   headname,
   isDone,
@@ -12,7 +23,7 @@ const Taskscontainer = ({
 }) => {
   const user = localStorage.getItem("user");
   const localdata = user ? JSON.parse(user) : {};
-  const [todolist, setTodolist] = useState<any[]>([]);
+  const [todolist, setTodolist] = useState<{ id: string; name: string; done: boolean }[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -44,7 +55,16 @@ const Taskscontainer = ({
         <div className="border-dashed border-2 border-b-white border-x-white border-t-gray-300 py-3">
           <TaskHead headname={headname} />
           <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-2 w-full">
-            <TaskCard tododata={todolist} />
+            {todolist && todolist.map((task) => (
+              <TaskCard 
+                key={task._id} 
+                _id={task._id} 
+                todoname={task.todoname} 
+                done_status={task.done_status} 
+                detail={task.detail} 
+                priority={task.priority} 
+              />
+            ))}
           </div>
         </div>
       ) : null}
