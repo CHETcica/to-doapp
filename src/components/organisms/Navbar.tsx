@@ -1,44 +1,72 @@
 "use client";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import Cookies from 'js-cookie';
 
 const Navbar = () => {
-  const user = localStorage.getItem('user');
+  const [user, setUser] = useState(null)
+  useEffect(() => {
+    const userData = Cookies.get('user');
+    if (userData) {
+      console.log("User data from cookie:", JSON.parse(userData));
+      setUser(JSON.parse(userData));
+    }
+
+  }, []);
+  
   function getCurrentDateInfo() {
     const today = new Date();
-    
+
     const day = today.getDate(); // Get the day of the month
     const monthNames = [
-      "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-      "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
     ];
     const month = monthNames[today.getMonth()]; // Get the month name
     const year = today.getFullYear(); // Get the current year
     const dayNames = [
-      "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
     ];
     const dayName = dayNames[today.getDay()]; // Get the day name
-  
+
     return {
       day,
       month,
       year,
-      dayName
+      dayName,
     };
   }
   const dateInfo = getCurrentDateInfo();
+
+  
   return (
-    <nav
-      className="flex justify-between items-center text-black py-3"
-    >
+    <nav className="flex justify-between items-center text-black py-3">
       <div className="flex">
         <h1 className="text-5xl font-bold mr-1">{dateInfo.day}</h1>
         <div className="flex flex-col">
           <span className="leading-[1.5]">{dateInfo.dayName}</span>
-          <span className="leading-[1.2]">{dateInfo.month} {dateInfo.year}</span>
+          <span className="leading-[1.2]">
+            {dateInfo.month} {dateInfo.year}
+          </span>
         </div>
       </div>
-      {user && user?(
+      {user && user ? (
         <div>
           <Link href={"/addnewtodo"} className="flex text-md font-semibold">
             <svg
@@ -62,15 +90,17 @@ const Navbar = () => {
             </svg>
             NEW TASK
           </Link>
-        </div>):(
-        <div className="flex ">
-          <Link href={"/login"} className="text-xl p-2">Login</Link>
-          <Link href={"/register"} className="text-xl p-2">Register</Link> 
         </div>
-      )
-
-      }
-      
+      ) : (
+        <div className="flex ">
+          <Link href={"/login"} className="text-xl p-2">
+            Login
+          </Link>
+          <Link href={"/register"} className="text-xl p-2">
+            Register
+          </Link>
+        </div>
+      )}
     </nav>
   );
 };

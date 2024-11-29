@@ -3,10 +3,10 @@ import { hasuraClient } from '../../../lib/hasuraClient';
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
-    console.log(req.body.localdata[0]._id)
+    
     const query = gql`
       query fetchTodo {
-        todos(where: {User_id: {_eq: "${req.body.localdata[0]._id}"}, done_status: {_eq: ${req.body.isDone}}}) {
+        todos(where: {User_id: {_eq: "${req.body.user[0]._id}"}, done_status: {_eq: ${req.body.isDone}}}) {
             _id
             priority
             todoname

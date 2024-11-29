@@ -4,11 +4,11 @@ import { hasuraClient } from '../../../lib/hasuraClient';
 export default async function AddNew(req, res) {
   if (req.method === 'POST') {
     
-    console.log("req.body.localdata[0]._id",req.body.localdata[0]._id)
+    console.log("req.body.user[0]._id",req.body.user[0]._id)
     const mutation = gql`
       mutation Addtodo {
         insert_todos_one(object: {
-            User_id: "${req.body.localdata[0]._id}",
+            User_id: "${req.body.user[0]._id}",
             detail: "${req.body.detail}",
             done_status: false,
             priority: ${req.body.priority || 1},

@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import TaskHead from "../atoms/TaskHead";
 import TaskCard from "../organisms/TaskCard";
+import Cookies from 'js-cookie';
 
 interface TaskCardProps {
   _id: string;
@@ -17,8 +18,17 @@ const Taskscontainer = ({
   headname: string;
   isDone: boolean;
 }) => {
-  const user = localStorage.getItem("user");
-  const localdata = user ? JSON.parse(user) : null;
+  const [user, setUser] = useState(null)
+
+  useEffect(() => {
+    const userData = Cookies.get('user');
+    if (userData) {
+      // console.log("User data from cookie:", JSON.parse(userData));
+      setUser(JSON.parse(userData));
+    }
+
+  }, []);
+  
 
   const [todolist, setTodolist] = useState<TaskCardProps[]>([]);
 
@@ -30,7 +40,7 @@ const Taskscontainer = ({
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ localdata, isDone }),
+          body: JSON.stringify({ user, isDone }),
         });
         const data = await response.json();
         if (data.success) {
@@ -42,7 +52,6 @@ const Taskscontainer = ({
             detail: task.detail || "",
             priority: task.priority || 0,
           }));
-          console.log("------------------formattedData-----------------------",formattedData)
           setTodolist(formattedData);
         } else {
           console.error(data.error);
@@ -53,7 +62,7 @@ const Taskscontainer = ({
     };
 
     fetchData();
-  },[localdata, isDone]);
+  },[user, isDone]);
 
   return (
     <>

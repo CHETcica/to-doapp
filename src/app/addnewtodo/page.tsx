@@ -1,21 +1,26 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { useRouter } from 'next/navigation'
+import { useRouter } from "next/navigation";
 import Navbar from "@/components/organisms/Navbar";
 import { toast, ToastContainer } from "react-toastify";
+import Cookies from 'js-cookie';
+
 const AddNewTodoPage = () => {
   const [todoName, setTodoName] = useState("");
   const [detail, setDetail] = useState("");
   const [priority, setPriority] = useState("");
-  const [localdata, setLocaldata] = useState({});
   const router = useRouter();
+  const [user, setUser] = useState(null)
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const user = localStorage.getItem("user");
-      setLocaldata(user ? JSON.parse(user) : {});
+    const userData = Cookies.get('user');
+    if (userData) {
+      console.log("User data from cookie:", JSON.parse(userData));
+      setUser(JSON.parse(userData));
     }
   }, []);
+  
+
 
   const handleAdd = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -25,14 +30,14 @@ const AddNewTodoPage = () => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ todoName, detail, priority, localdata }),
+      body: JSON.stringify({ todoName, detail, priority, user }),
     });
 
     const data = await response.json();
 
     if (data.success) {
       toast.success("sucseccfully to create todocard");
-      router.push('/');
+      router.push("/");
     } else {
       console.error(data.error);
       alert(data.error);
@@ -43,9 +48,8 @@ const AddNewTodoPage = () => {
       <div className="container w-full mx-auto bg-[#FFFFFF] p-4">
         <Navbar />
       </div>
-      <ToastContainer/>
+      <ToastContainer />
       <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-        
         <div className="p-6 bg-white rounded shadow-md w-80 text-gray-600">
           <h1 className="text-xl font-bold mb-4 ">Add Todo</h1>
           <form onSubmit={handleAdd}>
@@ -73,7 +77,7 @@ const AddNewTodoPage = () => {
             </select>
 
             <button
-              type="submit" 
+              type="submit"
               className="w-full bg-blue-500 text-white py-2 rounded"
             >
               Add new todo

@@ -1,3 +1,4 @@
+"use client";
 import Link from "next/link";
 import React from "react";
 
@@ -17,12 +18,6 @@ const TaskCard: React.FC<TaskCardProps> = ({
   detail,
   priority,
 }) => {
-  console.log( "++++++++++++++++++++++++++++++++++++++++++++++",
-    _id,
-    todoname,
-    done_status,
-    detail,
-    priority,)
   return (
     <>
       {/* {Array.isArray(tododata) && tododata.map((task: TaskCardProps) => ( */}

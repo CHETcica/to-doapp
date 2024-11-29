@@ -3,8 +3,9 @@ import Navbar from "@/components/organisms/Navbar";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Cookies from 'js-cookie';
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -12,11 +13,9 @@ const LoginPage = () => {
   const router = useRouter();
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const user = localStorage.getItem("user");
-      if (user) {
-        console.log("User data found:", JSON.parse(user));
-      }
+    const userData = Cookies.get('user');
+    if (userData) {
+      console.log("User data from cookie:", JSON.parse(userData));
     }
   }, []);
 
@@ -34,15 +33,14 @@ const LoginPage = () => {
     const data = await response.json();
 
     if (data.success) {
-      console.log(data)
-      toast.success("sucseccfully to login!");
-      localStorage.setItem("user", JSON.stringify(data.users));
-      router.push('/');
+      console.log(data);
+      toast.success("Successfully logged in!");
+      Cookies.set('user', JSON.stringify(data.users));
+      router.push("/");
     } else {
       console.error(data.error);
     }
   };
-
 
   return (
     <>
@@ -74,7 +72,6 @@ const LoginPage = () => {
             >
               Login
             </button>
-            
           </form>
           <Link href={"/register"} className="text-blue-400 mt-4">
             If you have not an account, go to Register page
