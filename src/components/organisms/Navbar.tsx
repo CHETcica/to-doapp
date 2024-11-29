@@ -2,8 +2,10 @@
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import Cookies from 'js-cookie';
+import { useRouter } from "next/navigation";
 
 const Navbar = () => {
+  const router = useRouter();
   const [user, setUser] = useState(null)
   useEffect(() => {
     const userData = Cookies.get('user');
@@ -54,7 +56,10 @@ const Navbar = () => {
   }
   const dateInfo = getCurrentDateInfo();
 
-  
+  const handleLogout = () => {
+    Cookies.remove('user');
+    router.push("/login");
+  }
   return (
     <nav className="flex justify-between items-center text-black py-3">
       <div className="flex">
@@ -67,7 +72,7 @@ const Navbar = () => {
         </div>
       </div>
       {user && user ? (
-        <div>
+        <div className="flex items-center">
           <Link href={"/addnewtodo"} className="flex text-md font-semibold">
             <svg
               className="mr-2"
@@ -90,6 +95,9 @@ const Navbar = () => {
             </svg>
             NEW TASK
           </Link>
+          <button onClick={handleLogout} className="ml-3 bg-gray-300 p-2 rounded-md text-md font-semibold ">
+            Logout
+          </button>
         </div>
       ) : (
         <div className="flex ">
