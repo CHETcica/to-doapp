@@ -85,13 +85,16 @@ const EditTodoPage = ({
 
   return (
     <>
-      <div className="container w-full mx-auto bg-[#FFFFFF] p-4">
+       {/* <div className="container w-full mx-auto bg-[#FFFFFF] p-4">
         <Navbar />
-      </div>
+      </div> */} 
 
       <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
         
-        <div className="p-6 bg-white rounded shadow-md w-80 text-gray-600">
+        <div className={`p-6 ${done ? "bg-[#00b037]" : null}
+          ${priority == 1 && !done ? "bg-[#3E99EB]" : null}
+          ${priority == 2 && !done ? "bg-[#fc6e3e]" : null} 
+          rounded shadow-md w-80 text-gray-600`}>
           <h1 className="text-xl font-bold mb-4 ">Edit Todo</h1>
           <form 
           onSubmit={handleEdit}

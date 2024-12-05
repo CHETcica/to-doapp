@@ -20,7 +20,6 @@ const TaskCard: React.FC<TaskCardProps> = ({
 }) => {
   return (
     <>
-      {/* {Array.isArray(tododata) && tododata.map((task: TaskCardProps) => ( */}
       <Link
         href={`/edittodo/${_id}`}
         key={_id}
@@ -71,7 +70,6 @@ const TaskCard: React.FC<TaskCardProps> = ({
           </div>
         </div>
       </Link>
-      {/* ))} */}
     </>
   );
 };

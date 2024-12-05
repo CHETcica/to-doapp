@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -13,7 +13,7 @@ const LoginPage = () => {
   const router = useRouter();
 
   useEffect(() => {
-    const userData = Cookies.get('user');
+    const userData = Cookies.get("user");
     if (userData) {
       console.log("User data from cookie:", JSON.parse(userData));
     }
@@ -35,7 +35,7 @@ const LoginPage = () => {
     if (data.success) {
       console.log(data);
       toast.success("Successfully logged in!");
-      Cookies.set('user', JSON.stringify(data.users));
+      Cookies.set("user", JSON.stringify(data.users));
       router.push("/");
     } else {
       console.error(data.error);
@@ -44,9 +44,9 @@ const LoginPage = () => {
 
   return (
     <>
-      <div className="container w-full mx-auto bg-[#FFFFFF] p-4">
+      {/* <div className="container w-full mx-auto bg-[#FFFFFF] p-4">
         <Navbar />
-      </div>
+      </div> */}
       <ToastContainer />
       <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
         <div className="p-6 bg-white rounded shadow-md w-80 text-gray-600">

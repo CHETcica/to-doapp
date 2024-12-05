@@ -1,21 +1,20 @@
 "use client";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 
 const Navbar = () => {
   const router = useRouter();
-  const [user, setUser] = useState(null)
+  const [user, setUser] = useState(null);
   useEffect(() => {
-    const userData = Cookies.get('user');
+    const userData = Cookies.get("user");
     if (userData) {
       console.log("User data from cookie:", JSON.parse(userData));
       setUser(JSON.parse(userData));
     }
-
   }, []);
-  
+
   function getCurrentDateInfo() {
     const today = new Date();
 
@@ -57,59 +56,64 @@ const Navbar = () => {
   const dateInfo = getCurrentDateInfo();
 
   const handleLogout = () => {
-    Cookies.remove('user');
+    Cookies.remove("user");
     router.push("/login");
-  }
+  };
   return (
-    <nav className="flex justify-between items-center text-black py-3">
-      <div className="flex">
-        <h1 className="text-5xl font-bold mr-1">{dateInfo.day}</h1>
-        <div className="flex flex-col">
-          <span className="leading-[1.5]">{dateInfo.dayName}</span>
-          <span className="leading-[1.2]">
-            {dateInfo.month} {dateInfo.year}
-          </span>
-        </div>
-      </div>
-      {user && user ? (
-        <div className="flex items-center">
-          <Link href={"/addnewtodo"} className="flex text-md font-semibold">
-            <svg
-              className="mr-2"
-              width="22"
-              height="22"
-              viewBox="0 0 22 22"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
+    <div className="container w-full mx-auto bg-[#FFFFFF] p-4">
+      <nav className="flex justify-between items-center text-black">
+        <Link href={"/"} className="flex cursor-pointer">
+          <h1 className="text-5xl font-bold mr-1">{dateInfo.day}</h1>
+          <div className="flex flex-col">
+            <span className="leading-[1.5]">{dateInfo.dayName}</span>
+            <span className="leading-[1.2]">
+              {dateInfo.month} {dateInfo.year}
+            </span>
+          </div>
+        </Link>
+        {user && user ? (
+          <div className="flex items-center">
+            <Link href={"/addnewtodo"} className="flex text-md font-semibold">
+              <svg
+                className="mr-2"
+                width="22"
+                height="22"
+                viewBox="0 0 22 22"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <circle cx="11" cy="11" r="11" fill="#E13EEB" />
+                <rect x="6" y="10" width="10" height="2" fill="white" />
+                <rect
+                  x="12"
+                  y="6"
+                  width="10"
+                  height="2"
+                  transform="rotate(90 12 6)"
+                  fill="white"
+                />
+              </svg>
+              NEW TASK
+            </Link>
+            <button
+              onClick={handleLogout}
+              className="ml-3 bg-gray-300 p-2 rounded-md text-md font-semibold "
             >
-              <circle cx="11" cy="11" r="11" fill="#E13EEB" />
-              <rect x="6" y="10" width="10" height="2" fill="white" />
-              <rect
-                x="12"
-                y="6"
-                width="10"
-                height="2"
-                transform="rotate(90 12 6)"
-                fill="white"
-              />
-            </svg>
-            NEW TASK
-          </Link>
-          <button onClick={handleLogout} className="ml-3 bg-gray-300 p-2 rounded-md text-md font-semibold ">
-            Logout
-          </button>
-        </div>
-      ) : (
-        <div className="flex ">
-          <Link href={"/login"} className="text-xl p-2">
-            Login
-          </Link>
-          <Link href={"/register"} className="text-xl p-2">
-            Register
-          </Link>
-        </div>
-      )}
-    </nav>
+              Logout
+            </button>
+          </div>
+        ) : (
+          <div className="flex ">
+            <Link href={"/login"} className="text-xl p-2">
+              Login
+            </Link>
+            <Link href={"/register"} className="text-xl p-2">
+              Register
+            </Link>
+          </div>
+        )}
+      </nav>
+    </div>
   );
 };
 

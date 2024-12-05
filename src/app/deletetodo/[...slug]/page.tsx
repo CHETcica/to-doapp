@@ -1,22 +1,18 @@
-"use client"
+"use client";
 import Navbar from "@/components/organisms/Navbar";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-const DeletePage = ({
-    params,
-  }: {
-    params: Promise<{ slug: string }>
-  }) => {
+const DeletePage = ({ params }: { params: Promise<{ slug: string }> }) => {
   const router = useRouter();
-  const [ID , setID] = useState("");
+  const [ID, setID] = useState("");
 
   useEffect(() => {
     const getParams = async () => {
       const paramsData = await params;
-      setID(paramsData.slug[0])
+      setID(paramsData.slug[0]);
     };
 
     params.then((params) => {
@@ -25,7 +21,7 @@ const DeletePage = ({
       }
     });
   }, [params, ID]);
-  
+
   const handleDelete = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -40,10 +36,10 @@ const DeletePage = ({
     const data = await response.json();
 
     if (data.success) {
-    //   alert("sucseccfully to delete todocard");//
+      //   alert("sucseccfully to delete todocard");//
       toast("sucseccfully to delete todocard");
 
-      router.push('/');
+      router.push("/");
     } else {
       console.error(data.error);
       alert(data.error);
@@ -51,9 +47,9 @@ const DeletePage = ({
   };
   return (
     <>
-      <div className="container w-full mx-auto bg-[#FFFFFF] p-4">
+      {/* <div className="container w-full mx-auto bg-[#FFFFFF] p-4">
         <Navbar />
-      </div>
+      </div> */}
       <ToastContainer />
       <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
         <div className="p-6 bg-white rounded shadow-md w-80 text-gray-600">
