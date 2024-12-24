@@ -60,8 +60,8 @@ const Navbar = () => {
     Cookies.remove('user');
     router.push("/login");
   }
-  return (
-    <nav className="flex justify-between items-center text-black py-3">
+  return ( 
+    <nav className=" container mx-auto flex justify-between items-center text-black py-3 ">
       <div className="flex">
         <h1 className="text-5xl font-bold mr-1">{dateInfo.day}</h1>
         <div className="flex flex-col">

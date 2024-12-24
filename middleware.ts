@@ -13,5 +13,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['*'], // Apply middleware to /dashboard and its subpaths
+  matcher: ['*'],
 };

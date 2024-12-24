@@ -1,18 +1,15 @@
 "use client";
 
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import Navbar from "@/components/organisms/Navbar";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-
-
 
 const RegisterPage = () => {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
-
 
   const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -32,9 +29,6 @@ const RegisterPage = () => {
 
   return (
     <>
-      <div className="container w-full mx-auto bg-[#FFFFFF] p-4">
-        <Navbar />
-      </div>
       <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
         <div className="p-6 bg-white rounded shadow-md w-80 text-gray-600">
           <h1 className="text-xl font-bold mb-4 ">Register</h1>
@@ -73,7 +67,6 @@ const RegisterPage = () => {
           </Link>
         </div>
       </div>
-      
     </>
   );
 };
